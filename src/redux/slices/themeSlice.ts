@@ -1,7 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import {ColorSchemeName} from 'react-native'
 
 export interface ThemeState {
-  value: "light" | "dark"
+  value: ColorSchemeName
  }
 
 const initialState: ThemeState = {
@@ -18,10 +19,13 @@ export const themeSlice = createSlice({
     setLightTheme: (state) => {
         state.value = "light"
     },
+    setTheme: (state, action: PayloadAction<ColorSchemeName>) => {
+      state.value = action.payload
+  },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setLightTheme, setDarkTheme } = themeSlice.actions
+export const { setLightTheme, setDarkTheme, setTheme } = themeSlice.actions
 
 export default themeSlice.reducer

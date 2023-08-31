@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React from 'react'
+
 
 
 export const globalStyles = StyleSheet.create({

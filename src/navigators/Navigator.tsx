@@ -1,7 +1,7 @@
 // In App.js in a new project
 
 import * as React from "react";
-import { View, Text } from "react-native";
+import { View, Text, useColorScheme, AppState, Appearance } from "react-native";
 import { DarkTheme, DefaultTheme, NavigationContainer, Theme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
@@ -16,11 +16,25 @@ import ModalScreen from "../screens/ModalScreen";
 import InfiniteScrollScreen from "../screens/InfiniteScrollScreen";
 import SlidesScreen from "../screens/SlidesScreen";
 import ChangeThemeScreen from "../screens/ChangeThemeScreen";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { setDarkTheme, setTheme } from "../redux/slices/themeSlice";
 
 const Stack = createNativeStackNavigator();
 
 function Navigator() {
+  const colorScheme = useColorScheme()
+  const dispatch = useAppDispatch()
+
+  React.useEffect(() => {
+    AppState.addEventListener("change", (status)=>{
+      if(status=="active"){
+        dispatch(setTheme(Appearance.getColorScheme()))
+        console.log(Appearance.getColorScheme())
+      }
+    })
+  }, [])
+  
+
   const currentThemeValue = useAppSelector((state) => state.theme);
   const lightTheme: Theme = {
     dark: false,
@@ -34,9 +48,12 @@ function Navigator() {
       ...DarkTheme.colors
     },
   };
+  const selectedTheme = currentThemeValue.value === "light" ? lightTheme : darkTheme
   return (
+    <View style={{flex: 1, backgroundColor: (selectedTheme.colors.background) }}>
     <NavigationContainer
-      theme={currentThemeValue.value === "light" ? lightTheme : darkTheme}
+    
+      theme={selectedTheme}
     >
       <Stack.Navigator
         screenOptions={{
@@ -69,6 +86,7 @@ function Navigator() {
         <Stack.Screen name="ChangeThemeScreen" component={ChangeThemeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
+    </View>
   );
 }
 

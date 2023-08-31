@@ -2,13 +2,15 @@ import { View, Text, Button, Modal, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import HeaderTitle from "../components/HeaderTitle";
 import { globalStyles } from "../theme/appTheme";
+import { useTheme } from "@react-navigation/native";
 
 const ModalScreen = () => {
+  const theme = useTheme()
   const [isVisible, setIsVisible] = useState(false);
   return (
     <View style={globalStyles.globalMargin}>
       <HeaderTitle title="Modal Screen" />
-      <Button title="Abrir modal" onPress={() => setIsVisible(true)} />
+      <Button color={theme.colors.primary} title="Abrir modal" onPress={() => setIsVisible(true)} />
       <Modal animationType="fade" visible={isVisible} transparent>
         {/* background negro */}
         <View
