@@ -62,6 +62,6 @@ export const menuItems: Array<MenuItem> = [
     {
       name: "ChangeTheme",
       icon: "flask-outline",
-      component: "ChangeTheme",
+      component: "ChangeThemeScreen",
     },
   ];
